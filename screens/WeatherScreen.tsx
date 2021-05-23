@@ -2,16 +2,21 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-function WeatherScreen() {
+function WeatherScreen(props: {
+	pageColor: string;
+	temperature: number;
+	title: string;
+	subtitle: string;
+}) {
 	return (
-		<View style={styles.screenContainer}>
+		<View style={[styles.screenContainer, { backgroundColor: props.pageColor }]}>
 			<View style={styles.headerContainer}>
 				<MaterialCommunityIcons size={48} name="weather-sunny" color="#fff" />
-				<Text style={styles.tempText}>Temperature °</Text>
+				<Text style={styles.tempText}>{props.temperature}°</Text>
 			</View>
 			<View style={styles.bodyContainer}>
-				<Text style={styles.title}>Title</Text>
-				<Text style={styles.subtitle}>Subtitle</Text>
+				<Text style={styles.title}>{props.title}</Text>
+				<Text style={styles.subtitle}>{props.subtitle}</Text>
 			</View>
 		</View>
 	);
@@ -20,7 +25,6 @@ function WeatherScreen() {
 const styles = StyleSheet.create({
 	screenContainer: {
 		flex: 1,
-		backgroundColor: '#f5d20a',
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
