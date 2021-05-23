@@ -11,7 +11,11 @@ export default function App() {
 	return (
 		<View style={styles.container}>
 			<StatusBar style="auto" />
-			{isLoading ? <Loading /> : <WeatherScreen />}
+			{isLoading ? (
+				<Loading />
+			) : (
+				<WeatherScreen pageColor="#3CD3AD" title="Sunny" subtitle="So Sunny Bro" temperature={92} />
+			)}
 		</View>
 	);
 }
