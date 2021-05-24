@@ -12,7 +12,7 @@ export default function App() {
 		<View style={styles.container}>
 			<StatusBar style="auto" />
 			{isLoading ? (
-				<Loading />
+				<Loading loadingText={'Loading...'} />
 			) : (
 				<WeatherScreen pageColor="#3CD3AD" title="Sunny" subtitle="So Sunny Bro" temperature={92} />
 			)}
@@ -23,6 +23,5 @@ export default function App() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
 	},
 });
