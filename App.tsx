@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Alert } from 'react-native';
 import * as Location from 'expo-location';
 
 import { API_KEY } from './utils/WeatherAPIKey';
+import { checkIfNightTime } from './utils/utils';
 
 import Loading, { LoadingStates } from './screens/Loading';
 import WeatherScreen from './screens/WeatherScreen';
@@ -23,6 +24,7 @@ export default function App() {
 			setIsLoading(true);
 
 			const location: Location.LocationObject = await fetchLocation();
+			console.log(location);
 			const weather = await fetchWeather(location.coords.latitude, location.coords.longitude);
 
 			checkIfNightTime(weather);
@@ -37,16 +39,6 @@ export default function App() {
 			setIsLoading(false);
 		})();
 	}, []);
-
-	function checkIfNightTime(weather: any): void {
-		const currnetHour = new Date(weather.current.dt * 1000).getHours();
-		const sunriseHour = new Date(weather.current.sunrise * 1000).getHours();
-		const sunsetHour = new Date(weather.current.sunset * 1000).getHours();
-
-		if (currnetHour < sunriseHour || currnetHour > sunsetHour) {
-			setIsNight(true);
-		}
-	}
 
 	async function verifyLocationPermissions(): Promise<boolean> {
 		let result = await Location.requestForegroundPermissionsAsync();

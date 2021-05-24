@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { extractDay } from '../utils/utils';
 import { weatherConditions } from '../utils/WeatherConditions';
 import Card from '../components/Card';
 
@@ -33,6 +34,10 @@ function WeatherScreen(props: {
 				/>
 				<Text style={styles.tempText}>{props.temperature}°</Text>
 			</View>
+			<View style={styles.bodyContainer}>
+				<Text style={styles.title}>{weatherConditions[props.weatherCondition]?.title}</Text>
+				<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition]?.subtitle}</Text>
+			</View>
 			<View style={styles.nextDays}>
 				{props.nextDays.map((day: any, index: number) => {
 					return (
@@ -48,15 +53,10 @@ function WeatherScreen(props: {
 							key={index}
 							title={day.weather[0].main}
 							temp={day.temp.day}
+							day={extractDay(day.dt)}
 						/>
 					);
 				})}
-			</View>
-			<View style={styles.bodyContainer}>
-				<View>
-					<Text style={styles.title}>{weatherConditions[props.weatherCondition]?.title}</Text>
-					<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition]?.subtitle}</Text>
-				</View>
 			</View>
 		</View>
 	);
@@ -78,15 +78,19 @@ const styles = StyleSheet.create({
 		color: '#fff',
 	},
 	nextDays: {
-		flex: 4,
+		flex: 2,
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		marginBottom: 60,
 	},
 	card: {
 		color: 'white',
 		borderRadius: 5,
 		padding: 10,
 		width: 100,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 
 		shadowColor: '#000',
 		shadowOffset: {
@@ -99,10 +103,9 @@ const styles = StyleSheet.create({
 	},
 	bodyContainer: {
 		flex: 1,
-		alignItems: 'flex-start',
-		justifyContent: 'flex-end',
+		alignItems: 'center',
+		justifyContent: 'flex-start',
 		paddingLeft: 25,
-		marginBottom: 60,
 	},
 	title: {
 		fontSize: 60,
