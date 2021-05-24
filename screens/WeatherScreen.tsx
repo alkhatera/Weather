@@ -25,8 +25,6 @@ function WeatherScreen(props: {
 const styles = StyleSheet.create({
 	screenContainer: {
 		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
 	},
 	headerContainer: {
 		flex: 1,
