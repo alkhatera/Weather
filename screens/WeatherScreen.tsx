@@ -13,7 +13,7 @@ function WeatherScreen(props: { weatherCondition: string; temperature: number })
 			]}
 		>
 			<View style={styles.headerContainer}>
-				<MaterialCommunityIcons size={48} name="weather-sunny" color="#fff" />
+				<MaterialCommunityIcons size={72} name="weather-sunny" color="#fff" />
 				<Text style={styles.tempText}>{props.temperature}°</Text>
 			</View>
 			<View style={styles.bodyContainer}>
@@ -30,11 +30,12 @@ const styles = StyleSheet.create({
 	},
 	headerContainer: {
 		flex: 1,
+		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: 'space-around',
 	},
 	tempText: {
-		fontSize: 48,
+		fontSize: 72,
 		color: '#fff',
 	},
 	bodyContainer: {
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
 		marginBottom: 40,
 	},
 	title: {
-		fontSize: 48,
+		fontSize: 60,
 		color: '#fff',
 	},
 	subtitle: { fontSize: 24, color: '#fff' },
