@@ -2,21 +2,23 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-function WeatherScreen(props: {
-	pageColor: string;
-	temperature: number;
-	title: string;
-	subtitle: string;
-}) {
+import { weatherConditions } from '../utils/WeatherConditions';
+
+function WeatherScreen(props: { weatherCondition: string; temperature: number }) {
 	return (
-		<View style={[styles.screenContainer, { backgroundColor: props.pageColor }]}>
+		<View
+			style={[
+				styles.screenContainer,
+				{ backgroundColor: weatherConditions[props.weatherCondition].color },
+			]}
+		>
 			<View style={styles.headerContainer}>
 				<MaterialCommunityIcons size={48} name="weather-sunny" color="#fff" />
 				<Text style={styles.tempText}>{props.temperature}°</Text>
 			</View>
 			<View style={styles.bodyContainer}>
-				<Text style={styles.title}>{props.title}</Text>
-				<Text style={styles.subtitle}>{props.subtitle}</Text>
+				<Text style={styles.title}>{weatherConditions[props.weatherCondition].title}</Text>
+				<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition].subtitle}</Text>
 			</View>
 		</View>
 	);
