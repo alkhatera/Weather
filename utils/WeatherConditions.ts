@@ -29,6 +29,12 @@ export const weatherConditions: { [weatherName: string]: WeatherCondition } = {
 		subtitle: 'It is hurting my eyes',
 		icon: 'weather-sunny',
 	},
+	ClearNight: {
+		color: '#002573',
+		title: 'Clear Night',
+		subtitle: 'So peaceful',
+		icon: 'weather-night',
+	},
 	Thunderstorm: {
 		color: '#616161',
 		title: 'A storm is coming',

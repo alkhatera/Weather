@@ -4,7 +4,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { weatherConditions } from '../utils/WeatherConditions';
 
-function WeatherScreen(props: { weatherCondition: string; temperature: number }) {
+function WeatherScreen(props: { weatherCondition: string; temperature: number; isNight: boolean }) {
+	if (props.weatherCondition === 'Clear' && props.isNight) {
+		props.weatherCondition = 'ClearNight';
+	}
+
 	return (
 		<View
 			style={[
@@ -17,8 +21,15 @@ function WeatherScreen(props: { weatherCondition: string; temperature: number })
 				<Text style={styles.tempText}>{props.temperature}°</Text>
 			</View>
 			<View style={styles.bodyContainer}>
-				<Text style={styles.title}>{weatherConditions[props.weatherCondition]?.title}</Text>
-				<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition]?.subtitle}</Text>
+				<View style={styles.nextDays}>
+					<Text>Sunday</Text>
+					<Text>Sunday</Text>
+					<Text>Sunday</Text>
+				</View>
+				<View>
+					<Text style={styles.title}>{weatherConditions[props.weatherCondition]?.title}</Text>
+					<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition]?.subtitle}</Text>
+				</View>
 			</View>
 		</View>
 	);
@@ -44,6 +55,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 		paddingLeft: 25,
 		marginBottom: 40,
+	},
+	nextDays: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 	},
 	title: {
 		fontSize: 60,

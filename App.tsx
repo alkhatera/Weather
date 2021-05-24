@@ -14,6 +14,7 @@ export default function App() {
 	const [isFetchingWeather, setIsFetchingWeather] = useState(false);
 	const [temperature, setTemperature] = useState(0);
 	const [weatherCondition, setWeatherCondition] = useState('');
+	const [isNight, setIsNight] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -21,6 +22,14 @@ export default function App() {
 
 			const location: Location.LocationObject = await fetchLocation();
 			const weather = await fetchWeather(location.coords.latitude, location.coords.longitude);
+
+			const currnetHour = new Date(weather.current.dt * 1000).getHours();
+			const sunriseHour = new Date(weather.current.sunrise * 1000).getHours();
+			const sunsetHour = new Date(weather.current.sunset * 1000).getHours();
+
+			if (currnetHour < sunriseHour || currnetHour > sunsetHour) {
+				setIsNight(true);
+			}
 
 			setTemperature(weather.current.temp);
 			setWeatherCondition(weather.current.weather[0].main);
@@ -86,7 +95,11 @@ export default function App() {
 					loadingState={isFetchingLocation ? LoadingStates.Location : LoadingStates.Weather}
 				/>
 			) : (
-				<WeatherScreen weatherCondition={weatherCondition} temperature={temperature} />
+				<WeatherScreen
+					weatherCondition={weatherCondition}
+					temperature={temperature}
+					isNight={isNight}
+				/>
 			)}
 		</View>
 	);
