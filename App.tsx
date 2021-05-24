@@ -19,7 +19,7 @@ export default function App() {
 
 			const location: Location.LocationObject = await fetchLocation();
 			const weather = await fetchWeather(location.coords.latitude, location.coords.longitude);
-			console.log(weather.current);
+
 			setTemperature(weather.current.temp);
 			setWeatherCondition(weather.current.weather[0].main);
 
