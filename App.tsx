@@ -10,6 +10,8 @@ import WeatherScreen from './screens/WeatherScreen';
 
 export default function App() {
 	const [isLoading, setIsLoading] = useState(false);
+	const [isFetchingLocation, setIsFetchingLocation] = useState(false);
+	const [isFetchingWeather, setIsFetchingWeather] = useState(false);
 	const [temperature, setTemperature] = useState(0);
 	const [weatherCondition, setWeatherCondition] = useState('');
 
@@ -44,9 +46,10 @@ export default function App() {
 		if (!hasPermission) return null;
 
 		try {
-			// Getting Location
+			setIsFetchingLocation(true);
 			const location = await Location.getCurrentPositionAsync();
-			// DONE
+			setIsFetchingLocation(false);
+
 			return location;
 		} catch (err) {
 			Alert.alert('Could not fetch location!', 'Please try again later', [{ text: 'Okay' }]);
@@ -55,12 +58,12 @@ export default function App() {
 
 	async function fetchWeather(latitude: number, longitude: number) {
 		try {
-			// Getting weather
+			setIsFetchingWeather(true);
 			const weatherJson = await fetch(
 				`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,alerts&appid=${API_KEY}&units=metric`
 			);
 			const weatherData = await weatherJson.json();
-			// DONE
+			setIsFetchingWeather(false);
 
 			return weatherData;
 		} catch (err) {
@@ -72,7 +75,15 @@ export default function App() {
 		<View style={styles.container}>
 			<StatusBar style="auto" />
 			{isLoading ? (
-				<Loading loadingText={'Loading...'} />
+				<Loading
+					loadingText={
+						isFetchingLocation
+							? 'Getting your location...'
+							: isFetchingWeather
+							? 'Getting the weather info...'
+							: 'Loading...'
+					}
+				/>
 			) : (
 				<WeatherScreen weatherCondition={weatherCondition} temperature={temperature} />
 			)}

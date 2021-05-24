@@ -9,7 +9,7 @@ function WeatherScreen(props: { weatherCondition: string; temperature: number })
 		<View
 			style={[
 				styles.screenContainer,
-				{ backgroundColor: weatherConditions[props.weatherCondition].color },
+				{ backgroundColor: weatherConditions[props.weatherCondition]?.color },
 			]}
 		>
 			<View style={styles.headerContainer}>
@@ -17,8 +17,8 @@ function WeatherScreen(props: { weatherCondition: string; temperature: number })
 				<Text style={styles.tempText}>{props.temperature}°</Text>
 			</View>
 			<View style={styles.bodyContainer}>
-				<Text style={styles.title}>{weatherConditions[props.weatherCondition].title}</Text>
-				<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition].subtitle}</Text>
+				<Text style={styles.title}>{weatherConditions[props.weatherCondition]?.title}</Text>
+				<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition]?.subtitle}</Text>
 			</View>
 		</View>
 	);
