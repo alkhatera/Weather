@@ -17,15 +17,20 @@ function WeatherScreen(props: { weatherCondition: string; temperature: number; i
 			]}
 		>
 			<View style={styles.headerContainer}>
-				<MaterialCommunityIcons size={72} name="weather-sunny" color="#fff" />
+				<MaterialCommunityIcons
+					size={72}
+					// @ts-ignore
+					name={weatherConditions[props.weatherCondition]?.icon}
+					color="#fff"
+				/>
 				<Text style={styles.tempText}>{props.temperature}°</Text>
 			</View>
 			<View style={styles.bodyContainer}>
-				<View style={styles.nextDays}>
+				{/* <View style={styles.nextDays}>
 					<Text>Sunday</Text>
 					<Text>Sunday</Text>
 					<Text>Sunday</Text>
-				</View>
+				</View> */}
 				<View>
 					<Text style={styles.title}>{weatherConditions[props.weatherCondition]?.title}</Text>
 					<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition]?.subtitle}</Text>
@@ -54,7 +59,7 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 		justifyContent: 'flex-end',
 		paddingLeft: 25,
-		marginBottom: 40,
+		marginBottom: 60,
 	},
 	nextDays: {
 		flexDirection: 'row',
