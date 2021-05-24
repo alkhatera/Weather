@@ -12,9 +12,11 @@ export default function App() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isFetchingLocation, setIsFetchingLocation] = useState(false);
 	const [isFetchingWeather, setIsFetchingWeather] = useState(false);
+	const [isNight, setIsNight] = useState(false);
+
 	const [temperature, setTemperature] = useState(0);
 	const [weatherCondition, setWeatherCondition] = useState('');
-	const [isNight, setIsNight] = useState(false);
+	const [nextDays, setNextDays] = useState([]);
 
 	useEffect(() => {
 		(async () => {
@@ -23,20 +25,28 @@ export default function App() {
 			const location: Location.LocationObject = await fetchLocation();
 			const weather = await fetchWeather(location.coords.latitude, location.coords.longitude);
 
-			const currnetHour = new Date(weather.current.dt * 1000).getHours();
-			const sunriseHour = new Date(weather.current.sunrise * 1000).getHours();
-			const sunsetHour = new Date(weather.current.sunset * 1000).getHours();
-
-			if (currnetHour < sunriseHour || currnetHour > sunsetHour) {
-				setIsNight(true);
-			}
+			checkIfNightTime(weather);
 
 			setTemperature(weather.current.temp);
 			setWeatherCondition(weather.current.weather[0].main);
 
+			let nextDays = weather.daily.slice();
+			nextDays.splice(0, 1);
+			setNextDays(nextDays.slice());
+
 			setIsLoading(false);
 		})();
 	}, []);
+
+	function checkIfNightTime(weather: any): void {
+		const currnetHour = new Date(weather.current.dt * 1000).getHours();
+		const sunriseHour = new Date(weather.current.sunrise * 1000).getHours();
+		const sunsetHour = new Date(weather.current.sunset * 1000).getHours();
+
+		if (currnetHour < sunriseHour || currnetHour > sunsetHour) {
+			setIsNight(true);
+		}
+	}
 
 	async function verifyLocationPermissions(): Promise<boolean> {
 		let result = await Location.requestForegroundPermissionsAsync();
@@ -99,6 +109,7 @@ export default function App() {
 					weatherCondition={weatherCondition}
 					temperature={temperature}
 					isNight={isNight}
+					nextDays={nextDays}
 				/>
 			)}
 		</View>

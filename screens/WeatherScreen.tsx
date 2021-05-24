@@ -1,13 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { weatherConditions } from '../utils/WeatherConditions';
+import Card from '../components/Card';
 
-function WeatherScreen(props: { weatherCondition: string; temperature: number; isNight: boolean }) {
+function WeatherScreen(props: {
+	weatherCondition: string;
+	temperature: number;
+	isNight: boolean;
+	nextDays: any[];
+}) {
 	if (props.weatherCondition === 'Clear' && props.isNight) {
 		props.weatherCondition = 'ClearNight';
 	}
+
+	const width = Dimensions.get('window').width;
 
 	return (
 		<View
@@ -25,12 +33,26 @@ function WeatherScreen(props: { weatherCondition: string; temperature: number; i
 				/>
 				<Text style={styles.tempText}>{props.temperature}°</Text>
 			</View>
+			<View style={styles.nextDays}>
+				{props.nextDays.map((day: any, index: number) => {
+					return (
+						<Card
+							styles={[
+								styles.card,
+								{
+									width: width - 25,
+									backgroundColor: weatherConditions[day.weather[0].main]?.color,
+									borderColor: 'white',
+								},
+							]}
+							key={index}
+							title={day.weather[0].main}
+							temp={day.temp.day}
+						/>
+					);
+				})}
+			</View>
 			<View style={styles.bodyContainer}>
-				{/* <View style={styles.nextDays}>
-					<Text>Sunday</Text>
-					<Text>Sunday</Text>
-					<Text>Sunday</Text>
-				</View> */}
 				<View>
 					<Text style={styles.title}>{weatherConditions[props.weatherCondition]?.title}</Text>
 					<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition]?.subtitle}</Text>
@@ -49,21 +71,38 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-around',
+		marginTop: 60,
 	},
 	tempText: {
 		fontSize: 72,
 		color: '#fff',
 	},
+	nextDays: {
+		flex: 4,
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
+	card: {
+		color: 'white',
+		borderRadius: 5,
+		padding: 10,
+		width: 100,
+
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.0,
+		elevation: 24,
+	},
 	bodyContainer: {
-		flex: 2,
+		flex: 1,
 		alignItems: 'flex-start',
 		justifyContent: 'flex-end',
 		paddingLeft: 25,
 		marginBottom: 60,
-	},
-	nextDays: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
 	},
 	title: {
 		fontSize: 60,
