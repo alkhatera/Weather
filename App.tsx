@@ -5,7 +5,7 @@ import * as Location from 'expo-location';
 
 import { API_KEY } from './utils/WeatherAPIKey';
 
-import Loading from './screens/Loading';
+import Loading, { LoadingStates } from './screens/Loading';
 import WeatherScreen from './screens/WeatherScreen';
 
 export default function App() {
@@ -83,6 +83,7 @@ export default function App() {
 							? 'Getting the weather info...'
 							: 'Loading...'
 					}
+					loadingState={isFetchingLocation ? LoadingStates.Location : LoadingStates.Weather}
 				/>
 			) : (
 				<WeatherScreen weatherCondition={weatherCondition} temperature={temperature} />

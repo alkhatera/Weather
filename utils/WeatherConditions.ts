@@ -66,3 +66,14 @@ export const weatherConditions: { [weatherName: string]: WeatherCondition } = {
 		icon: 'weather-fog',
 	},
 };
+
+export const colors = [
+	'#005BEA',
+	'#f7b733',
+	'#616161',
+	'#1F1C2C',
+	'#00d2ff',
+	'#076585',
+	'#66A6FF',
+	'#3CD3AD',
+];
