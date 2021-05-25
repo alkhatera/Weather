@@ -8,7 +8,7 @@ import { checkIfNightTime } from '../utils/utils';
 import Loading, { LoadingStates } from '../screens/Loading';
 import CurrentWeather from '../components/CurrentWeather';
 
-function WeatherScreen(props: any) {
+function WeatherScreen() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isFetchingLocation, setIsFetchingLocation] = useState(false);
 	const [isFetchingWeather, setIsFetchingWeather] = useState(false);
