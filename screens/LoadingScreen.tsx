@@ -10,7 +10,7 @@ export enum LoadingStates {
 	Weather,
 }
 
-function Loading(props: { loadingText: string; loadingState: LoadingStates }) {
+function LoadingScreen(props: { loadingText: string; loadingState: LoadingStates }) {
 	const [backgroundCol, setBackgroundCol] = useState('#000');
 
 	function changeBackgroundColor() {
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default Loading;
+export default LoadingScreen;

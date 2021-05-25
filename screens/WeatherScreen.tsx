@@ -5,7 +5,7 @@ import * as Location from 'expo-location';
 import { API_KEY } from '../utils/WeatherAPIKey';
 import { checkIfNightTime } from '../utils/utils';
 
-import Loading, { LoadingStates } from '../screens/Loading';
+import LoadingScreen, { LoadingStates } from './LoadingScreen';
 import CurrentWeather from '../components/CurrentWeather';
 
 function WeatherScreen() {
@@ -83,7 +83,7 @@ function WeatherScreen() {
 	return (
 		<View style={styles.container}>
 			{isLoading ? (
-				<Loading
+				<LoadingScreen
 					loadingText={
 						isFetchingLocation
 							? 'Getting your location...'

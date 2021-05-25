@@ -5,8 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import SearchScreen from './screens/SearchScreen';
-import WeatherScreen from './screens/WeatherScreen';
 import CityWeather from './components/CityWeather';
+import HomeScreen from './screens/HomeScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +17,7 @@ export default function App() {
 			<Stack.Navigator initialRouteName="Home">
 				<Stack.Screen
 					name="Home"
-					component={WeatherScreen}
+					component={HomeScreen}
 					options={({ navigation }) => ({
 						title: 'Current Weather',
 						headerRight: () => {

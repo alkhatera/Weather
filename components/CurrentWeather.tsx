@@ -51,7 +51,6 @@ function CurrentWeather(props: {
 								{
 									width: width - 25,
 									backgroundColor: weatherConditions[day.weather[0].main]?.color,
-									borderColor: 'white',
 								},
 							]}
 							key={index}
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-around',
-		marginTop: 60,
+		marginTop: 20,
 	},
 	tempText: {
 		fontSize: 72,
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'flex-start',
-		paddingLeft: 25,
+		marginBottom: 20,
 	},
 	title: {
 		fontSize: 60,
