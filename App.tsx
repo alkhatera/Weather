@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import * as Location from 'expo-location';
+import { NavigationContainer } from '@react-navigation/native';
 
 import { API_KEY } from './utils/WeatherAPIKey';
 import { checkIfNightTime } from './utils/utils';
@@ -24,10 +25,9 @@ export default function App() {
 			setIsLoading(true);
 
 			const location: Location.LocationObject = await fetchLocation();
-			console.log(location);
 			const weather = await fetchWeather(location.coords.latitude, location.coords.longitude);
 
-			checkIfNightTime(weather);
+			setIsNight(checkIfNightTime(weather));
 
 			setTemperature(weather.current.temp);
 			setWeatherCondition(weather.current.weather[0].main);
@@ -83,28 +83,30 @@ export default function App() {
 	}
 
 	return (
-		<View style={styles.container}>
-			<StatusBar style="auto" />
-			{isLoading ? (
-				<Loading
-					loadingText={
-						isFetchingLocation
-							? 'Getting your location...'
-							: isFetchingWeather
-							? 'Getting the weather info...'
-							: 'Loading...'
-					}
-					loadingState={isFetchingLocation ? LoadingStates.Location : LoadingStates.Weather}
-				/>
-			) : (
-				<WeatherScreen
-					weatherCondition={weatherCondition}
-					temperature={temperature}
-					isNight={isNight}
-					nextDays={nextDays}
-				/>
-			)}
-		</View>
+		<NavigationContainer>
+			<View style={styles.container}>
+				<StatusBar style="auto" />
+				{isLoading ? (
+					<Loading
+						loadingText={
+							isFetchingLocation
+								? 'Getting your location...'
+								: isFetchingWeather
+								? 'Getting the weather info...'
+								: 'Loading...'
+						}
+						loadingState={isFetchingLocation ? LoadingStates.Location : LoadingStates.Weather}
+					/>
+				) : (
+					<WeatherScreen
+						weatherCondition={weatherCondition}
+						temperature={temperature}
+						isNight={isNight}
+						nextDays={nextDays}
+					/>
+				)}
+			</View>
+		</NavigationContainer>
 	);
 }
 
