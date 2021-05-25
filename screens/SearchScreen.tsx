@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import SearchResults from '../components/SearchResults';
-import Fuse from 'fuse.js';
 
 import { cities } from '../utils/Cities';
 
 import { View, Text, StyleSheet, TextInput, FlatList, ScrollView } from 'react-native';
-
-const fuse = new Fuse(cities, {
-	keys: ['name', 'country'],
-	shouldSort: true,
-});
 
 function SearchScreen() {
 	const [searchedForCity, setSearchedForCity] = useState('');

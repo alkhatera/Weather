@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button } from 'react-native';
+import { Button } from 'react-native-elements';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import SearchScreen from './screens/SearchScreen';
 import CityWeather from './components/CityWeather';
@@ -23,7 +24,12 @@ export default function App() {
 						headerRight: () => {
 							return (
 								<Button
-									title="Search"
+									icon={<Ionicons name="search" size={25} color="gray" />}
+									title=""
+									type="clear"
+									style={{
+										marginRight: 10,
+									}}
 									onPress={() => {
 										navigation.navigate('Search');
 									}}
