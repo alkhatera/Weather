@@ -1,116 +1,114 @@
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Alert } from 'react-native';
+import * as Location from 'expo-location';
 
-import { extractDay } from '../utils/utils';
-import { weatherConditions } from '../utils/WeatherConditions';
-import Card from '../components/Card';
+import { API_KEY } from '../utils/WeatherAPIKey';
+import { checkIfNightTime } from '../utils/utils';
 
-function WeatherScreen(props: {
-	weatherCondition: string;
-	temperature: number;
-	isNight: boolean;
-	nextDays: any[];
-}) {
-	if (props.weatherCondition === 'Clear' && props.isNight) {
-		props.weatherCondition = 'ClearNight';
+import Loading, { LoadingStates } from '../screens/Loading';
+import CurrentWeather from '../components/CurrentWeather';
+
+function WeatherScreen(props: any) {
+	const [isLoading, setIsLoading] = useState(false);
+	const [isFetchingLocation, setIsFetchingLocation] = useState(false);
+	const [isFetchingWeather, setIsFetchingWeather] = useState(false);
+	const [isNight, setIsNight] = useState(false);
+
+	const [temperature, setTemperature] = useState(0);
+	const [weatherCondition, setWeatherCondition] = useState('');
+	const [nextDays, setNextDays] = useState([]);
+
+	useEffect(() => {
+		(async () => {
+			setIsLoading(true);
+
+			const location: Location.LocationObject = await fetchLocation();
+			const weather = await fetchWeather(location.coords.latitude, location.coords.longitude);
+
+			setIsNight(checkIfNightTime(weather));
+
+			setTemperature(weather.current.temp);
+			setWeatherCondition(weather.current.weather[0].main);
+
+			let nextDays = weather.daily.slice();
+			nextDays.splice(0, 1);
+			setNextDays(nextDays.slice());
+
+			setIsLoading(false);
+		})();
+	}, []);
+
+	async function verifyLocationPermissions(): Promise<boolean> {
+		let result = await Location.requestForegroundPermissionsAsync();
+
+		if (result.status !== 'granted') {
+			Alert.alert('Insufficient Permissions', 'Permission to access the location was denied', [
+				{ text: 'Okay' },
+			]);
+			return false;
+		}
+		return true;
 	}
 
-	const width = Dimensions.get('window').width;
+	async function fetchLocation(): Promise<Location.LocationObject | any> {
+		const hasPermission = await verifyLocationPermissions();
+		if (!hasPermission) return null;
+
+		try {
+			setIsFetchingLocation(true);
+			const location = await Location.getCurrentPositionAsync();
+			setIsFetchingLocation(false);
+
+			return location;
+		} catch (err) {
+			Alert.alert('Could not fetch location!', 'Please try again later', [{ text: 'Okay' }]);
+		}
+	}
+
+	async function fetchWeather(latitude: number, longitude: number) {
+		try {
+			setIsFetchingWeather(true);
+			const weatherJson = await fetch(
+				`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,alerts&appid=${API_KEY}&units=metric`
+			);
+			const weatherData = await weatherJson.json();
+			setIsFetchingWeather(false);
+
+			return weatherData;
+		} catch (err) {
+			Alert.alert('Could not fetch the weather!', 'Please try again later', [{ text: 'Okay' }]);
+		}
+	}
 
 	return (
-		<View
-			style={[
-				styles.screenContainer,
-				{ backgroundColor: weatherConditions[props.weatherCondition]?.color },
-			]}
-		>
-			<View style={styles.headerContainer}>
-				<MaterialCommunityIcons
-					size={72}
-					// @ts-ignore
-					name={weatherConditions[props.weatherCondition]?.icon}
-					color="#fff"
+		<View style={styles.container}>
+			{isLoading ? (
+				<Loading
+					loadingText={
+						isFetchingLocation
+							? 'Getting your location...'
+							: isFetchingWeather
+							? 'Getting the weather info...'
+							: 'Loading...'
+					}
+					loadingState={isFetchingLocation ? LoadingStates.Location : LoadingStates.Weather}
 				/>
-				<Text style={styles.tempText}>{props.temperature}°</Text>
-			</View>
-			<View style={styles.bodyContainer}>
-				<Text style={styles.title}>{weatherConditions[props.weatherCondition]?.title}</Text>
-				<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition]?.subtitle}</Text>
-			</View>
-			<ScrollView
-				contentContainerStyle={{
-					alignItems: 'center',
-				}}
-			>
-				{props.nextDays.map((day: any, index: number) => {
-					return (
-						<Card
-							styles={[
-								styles.card,
-								{
-									width: width - 25,
-									backgroundColor: weatherConditions[day.weather[0].main]?.color,
-									borderColor: 'white',
-								},
-							]}
-							key={index}
-							title={day.weather[0].main}
-							temp={day.temp.day}
-							day={extractDay(day.dt)}
-						/>
-					);
-				})}
-			</ScrollView>
+			) : (
+				<CurrentWeather
+					weatherCondition={weatherCondition}
+					temperature={temperature}
+					isNight={isNight}
+					nextDays={nextDays}
+				/>
+			)}
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-	screenContainer: {
+	container: {
 		flex: 1,
 	},
-	headerContainer: {
-		flex: 1,
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-around',
-		marginTop: 60,
-	},
-	tempText: {
-		fontSize: 72,
-		color: '#fff',
-	},
-	card: {
-		color: 'white',
-		borderRadius: 5,
-		padding: 10,
-		marginVertical: 5,
-		width: 100,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 12,
-		},
-		shadowOpacity: 0.58,
-		shadowRadius: 16.0,
-		elevation: 24,
-	},
-	bodyContainer: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'flex-start',
-		paddingLeft: 25,
-	},
-	title: {
-		fontSize: 60,
-		color: '#fff',
-	},
-	subtitle: { fontSize: 24, color: '#fff' },
 });
 
 export default WeatherScreen;
