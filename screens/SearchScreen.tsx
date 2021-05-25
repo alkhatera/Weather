@@ -1,29 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchResults from '../components/SearchResults';
+import Fuse from 'fuse.js';
 
 import { cities } from '../utils/Cities';
 
 import { View, Text, StyleSheet, TextInput, FlatList, ScrollView } from 'react-native';
 
+const fuse = new Fuse(cities, {
+	keys: ['name', 'country'],
+	shouldSort: true,
+});
+
 function SearchScreen() {
 	const [searchedForCity, setSearchedForCity] = useState('');
-	const [foundCities, setFoundCitites] = useState([]);
+	const [foundCities, setFoundCities] = useState<any[]>([]);
+
+	useEffect(() => {
+		setFoundCities(cities.slice());
+	}, [cities]);
+
+	function filter(text: string): any[] {
+		if (!text) return [];
+
+		return cities.filter((city) => {
+			return (
+				city.name.toUpperCase().includes(text.toUpperCase()) ||
+				city.country.toUpperCase().includes(text.toUpperCase())
+			);
+		});
+	}
 
 	return (
 		<View style={{ backgroundColor: 'white' }}>
 			<View style={styles.form}>
 				<View style={styles.formControl}>
-					{/* <Text style={styles.label}>Search for a city...</Text> */}
 					<TextInput
 						style={styles.input}
 						value={searchedForCity}
-						onChangeText={(text) => setSearchedForCity(text)}
+						onChangeText={(text) => {
+							setSearchedForCity(text);
+							setFoundCities(filter(searchedForCity));
+						}}
 						placeholder="Search for a city..."
 					/>
 				</View>
 			</View>
 			<View>
-				<SearchResults cities={cities} />
+				<SearchResults cities={foundCities} />
 			</View>
 		</View>
 	);

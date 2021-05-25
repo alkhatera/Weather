@@ -10,7 +10,7 @@ function SearchResults(props: any) {
 	return (
 		<FlatList
 			data={props.cities}
-			keyExtractor={(item) => item.key.toString()}
+			keyExtractor={(item) => '' + item.key}
 			renderItem={(cityData) => (
 				<ListItem
 					key={cityData.item.key}
