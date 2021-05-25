@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { extractDay } from '../utils/utils';
@@ -38,7 +38,11 @@ function WeatherScreen(props: {
 				<Text style={styles.title}>{weatherConditions[props.weatherCondition]?.title}</Text>
 				<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition]?.subtitle}</Text>
 			</View>
-			<View style={styles.nextDays}>
+			<ScrollView
+				contentContainerStyle={{
+					alignItems: 'center',
+				}}
+			>
 				{props.nextDays.map((day: any, index: number) => {
 					return (
 						<Card
@@ -57,7 +61,7 @@ function WeatherScreen(props: {
 						/>
 					);
 				})}
-			</View>
+			</ScrollView>
 		</View>
 	);
 }
@@ -77,16 +81,11 @@ const styles = StyleSheet.create({
 		fontSize: 72,
 		color: '#fff',
 	},
-	nextDays: {
-		flex: 2,
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		marginBottom: 60,
-	},
 	card: {
 		color: 'white',
 		borderRadius: 5,
 		padding: 10,
+		marginVertical: 5,
 		width: 100,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
