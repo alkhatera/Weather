@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { ListItem, Icon } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 
-function SearchResults(props: { cities: any[]; navigation: any }) {
+function SearchResults(props: any) {
+	const navigation = useNavigation();
+
 	return (
 		<FlatList
 			data={props.cities}
@@ -18,7 +21,7 @@ function SearchResults(props: { cities: any[]; navigation: any }) {
 					activeScale={0.95}
 					bottomDivider
 					onPress={() => {
-						props.navigation.navigate(`city/${cityData.item.key}`);
+						navigation.navigate('City', { key: cityData.item.key });
 					}}
 				>
 					<ListItem.Content>

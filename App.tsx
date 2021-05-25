@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { Button } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer, createNavigatorFactory } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import SearchScreen from './screens/SearchScreen';
 import WeatherScreen from './screens/WeatherScreen';
+import CityWeather from './components/CityWeather';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ export default function App() {
 					})}
 				/>
 				<Stack.Screen name="Search" component={SearchScreen} />
+				<Stack.Screen name="City" component={CityWeather} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
