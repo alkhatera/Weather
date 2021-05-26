@@ -36,7 +36,7 @@ function CityWeather(props: any) {
 				);
 			},
 		});
-	}, [toggleFavoriteHandler]);
+	}, [toggleFavoriteHandler, selectedCity.name]);
 
 	return (
 		<View>

@@ -29,7 +29,7 @@ export default function App() {
 						name="Home"
 						component={HomeScreen}
 						options={({ navigation }) => ({
-							title: 'Current Weather',
+							title: 'Weather',
 							headerRight: () => {
 								return (
 									<Button
