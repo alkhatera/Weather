@@ -8,7 +8,7 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
 import SearchScreen from './screens/SearchScreen';
-import CityWeather from './components/CityWeather';
+import CityWeatherScreen from './screens/CityWeatherScreen';
 import HomeScreen from './screens/HomeScreen';
 import citiesReducer from './store/reducers/cities';
 
@@ -48,7 +48,7 @@ export default function App() {
 						})}
 					/>
 					<Stack.Screen name="Search" component={SearchScreen} />
-					<Stack.Screen name="City" component={CityWeather} />
+					<Stack.Screen name="City" component={CityWeatherScreen} />
 				</Stack.Navigator>
 			</NavigationContainer>
 		</Provider>

@@ -12,8 +12,8 @@ function WeatherScreen() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isFetchingLocation, setIsFetchingLocation] = useState(false);
 	const [isFetchingWeather, setIsFetchingWeather] = useState(false);
-	const [isNight, setIsNight] = useState(false);
 
+	const [isNight, setIsNight] = useState(false);
 	const [temperature, setTemperature] = useState(0);
 	const [weatherCondition, setWeatherCondition] = useState('');
 	const [nextDays, setNextDays] = useState([]);

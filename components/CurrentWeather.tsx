@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -12,8 +12,10 @@ function CurrentWeather(props: {
 	isNight: boolean;
 	nextDays: any[];
 }) {
-	if (props.weatherCondition === 'Clear' && props.isNight) {
-		props.weatherCondition = 'ClearNight';
+	const [weatherCondition, setWeatherCondition] = useState(props.weatherCondition);
+
+	if (weatherCondition === 'Clear' && props.isNight) {
+		setWeatherCondition('ClearNight');
 	}
 
 	const width = Dimensions.get('window').width;
@@ -22,21 +24,21 @@ function CurrentWeather(props: {
 		<View
 			style={[
 				styles.screenContainer,
-				{ backgroundColor: weatherConditions[props.weatherCondition]?.color },
+				{ backgroundColor: weatherConditions[weatherCondition]?.color },
 			]}
 		>
 			<View style={styles.headerContainer}>
 				<MaterialCommunityIcons
 					size={72}
 					// @ts-ignore
-					name={weatherConditions[props.weatherCondition]?.icon}
+					name={weatherConditions[weatherCondition]?.icon}
 					color="#fff"
 				/>
 				<Text style={styles.tempText}>{props.temperature}°</Text>
 			</View>
 			<View style={styles.bodyContainer}>
-				<Text style={styles.title}>{weatherConditions[props.weatherCondition]?.title}</Text>
-				<Text style={styles.subtitle}>{weatherConditions[props.weatherCondition]?.subtitle}</Text>
+				<Text style={styles.title}>{weatherConditions[weatherCondition]?.title}</Text>
+				<Text style={styles.subtitle}>{weatherConditions[weatherCondition]?.subtitle}</Text>
 			</View>
 			<ScrollView
 				contentContainerStyle={{
