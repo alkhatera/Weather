@@ -1,4 +1,11 @@
-export const cities = [
+export type City = {
+	country: string;
+	key: number;
+	name: string;
+	subcountry: string;
+};
+
+export const CITIES: City[] = [
 	{
 		country: 'Andorra',
 		key: 3040051,

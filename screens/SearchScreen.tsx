@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import SearchResults from '../components/SearchResults';
-
-import { cities } from '../utils/Cities';
+import { RootStateOrAny, useSelector } from 'react-redux';
 
 import { View, Text, StyleSheet, TextInput, FlatList, ScrollView } from 'react-native';
+import { City } from '../utils/Cities';
 
 function SearchScreen() {
+	const availableCities = useSelector((state: RootStateOrAny) => state.cities.cities);
 	const [searchedForCity, setSearchedForCity] = useState('');
 	const [foundCities, setFoundCities] = useState<any[]>([]);
 
 	useEffect(() => {
-		setFoundCities(cities.slice());
-	}, [cities]);
+		setFoundCities(availableCities.slice());
+	}, [availableCities]);
 
 	function filter(text: string): any[] {
 		if (!text) return [];
 
-		return cities.filter((city) => {
+		return availableCities.filter((city: City) => {
 			return (
 				city.name.toUpperCase().includes(text.toUpperCase()) ||
 				city.country.toUpperCase().includes(text.toUpperCase())

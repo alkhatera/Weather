@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { RootStateOrAny, useSelector } from 'react-redux';
 
-import { cities } from '../utils/Cities';
+import { City } from '../utils/Cities';
 
 function CityWeather(props: any) {
-	const selectedCity = cities.find((city) => city.key === props.route.params.key);
+	const availableCities = useSelector((state: RootStateOrAny) => state.cities.cities);
 
+	const selectedCity = availableCities.find((city: City) => city.key === props.route.params.key);
 	useEffect(() => {
 		props.navigation.setOptions({ title: selectedCity?.name });
 	}, []);
