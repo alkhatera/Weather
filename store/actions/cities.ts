@@ -1,5 +1,5 @@
 export const TOGGLE_FAVORITE = 'TOGGLE FAVORITE';
 
-export const toggleFavortie = (id: number) => {
+export const toggleFavorite = (id: number) => {
 	return { type: TOGGLE_FAVORITE, cityId: id };
 };
