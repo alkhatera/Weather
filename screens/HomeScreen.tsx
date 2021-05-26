@@ -17,7 +17,7 @@ export default function HomeScreen() {
 					if (route.name === 'Current Weather') {
 						iconName = focused ? 'home' : 'home-outline';
 					} else if (route.name === 'Favorites') {
-						iconName = focused ? 'heart' : 'heart-outline';
+						iconName = focused ? 'star' : 'star-outline';
 					}
 
 					// @ts-ignore
