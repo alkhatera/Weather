@@ -1,12 +1,12 @@
 import { CITIES, City } from '../../utils/Cities';
-import { TOGGLE_FAVORITE } from '../actions/cities';
+import { ToggleFavAction, TOGGLE_FAVORITE } from '../actions/cities';
 
 const initialState = {
 	cities: CITIES,
 	favoriteCities: [],
 };
 
-const citiesReducer = (state = initialState, action: any) => {
+const citiesReducer = (state = initialState, action: ToggleFavAction) => {
 	switch (action.type) {
 		case TOGGLE_FAVORITE:
 			const existingIndex = state.favoriteCities.findIndex(
