@@ -4,13 +4,13 @@ import { Button } from 'react-native-elements';
 import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { City } from '../utils/Cities';
-import { API_KEY } from '../utils/WeatherAPIKey';
-import { checkIfNightTime } from '../utils/utils';
+import { City } from '../../utils/Cities';
+import { API_KEY } from '../../utils/WeatherAPIKey';
+import { checkIfNightTime } from '../../utils/utils';
 
-import { toggleFavorite } from '../store/actions/cities';
-import LoadingScreen, { LoadingStates } from './LoadingScreen';
-import CurrentWeather from '../components/CurrentWeather';
+import { toggleFavorite } from '../../store/actions/cities';
+import LoadingScreen, { LoadingStates } from '../loading/LoadingScreen';
+import CurrentWeather from '../../components/CurrentWeather';
 
 function CityWeatherScreen(props: any) {
 	const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +41,6 @@ function CityWeatherScreen(props: any) {
 			setIsLoading(true);
 
 			const weather = await fetchWeatherUsingCity(selectedCity.name);
-			console.log(checkIfNightTime(weather));
 			setIsNight(checkIfNightTime(weather));
 
 			setTemperature(weather.current.temp);

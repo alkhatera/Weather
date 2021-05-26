@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { RootStateOrAny, useSelector } from 'react-redux';
 
-import SearchResults from '../components/SearchResults';
-import { City } from '../utils/Cities';
+import SearchResults from '../search/SearchResults';
+import { City } from '../../utils/Cities';
 
 function FavoritesScreen(props: any) {
 	const favortieCities: City[] = useSelector(

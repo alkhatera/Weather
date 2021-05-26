@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import SearchResults from '../components/SearchResults';
+import SearchResults from './SearchResults';
 import { RootStateOrAny, useSelector } from 'react-redux';
 
 import { View, Text, StyleSheet, TextInput, FlatList, ScrollView } from 'react-native';
-import { City } from '../utils/Cities';
+import { City } from '../../utils/Cities';
 
 function SearchScreen() {
 	const availableCities = useSelector((state: RootStateOrAny) => state.cities.cities);

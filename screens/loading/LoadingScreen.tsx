@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { UpDownAnimation } from '../components/UpDownAnimation';
-import { colors } from '../utils/WeatherConditions';
+import { UpDownAnimation } from '../../components/UpDownAnimation';
+import { colors } from '../../utils/WeatherConditions';
 
 export enum LoadingStates {
 	Location,

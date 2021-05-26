@@ -7,9 +7,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
-import SearchScreen from './screens/SearchScreen';
-import CityWeatherScreen from './screens/CityWeatherScreen';
-import HomeScreen from './screens/HomeScreen';
+import SearchScreen from './screens/search/SearchScreen';
+import CityWeatherScreen from './screens/cities/CityWeatherScreen';
+import HomeScreen from './screens/home/HomeScreen';
 import citiesReducer from './store/reducers/cities';
 
 const Stack = createStackNavigator();

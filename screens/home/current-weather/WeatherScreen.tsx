@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import * as Location from 'expo-location';
 
-import { API_KEY } from '../utils/WeatherAPIKey';
-import { checkIfNightTime } from '../utils/utils';
+import { API_KEY } from '../../../utils/WeatherAPIKey';
+import { checkIfNightTime } from '../../../utils/utils';
 
-import LoadingScreen, { LoadingStates } from './LoadingScreen';
-import CurrentWeather from '../components/CurrentWeather';
+import LoadingScreen, { LoadingStates } from '../../loading/LoadingScreen';
+import CurrentWeather from '../../../components/CurrentWeather';
 
 function WeatherScreen() {
 	const [isLoading, setIsLoading] = useState(false);

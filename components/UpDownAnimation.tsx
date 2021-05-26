@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Animated } from 'react-native';
 
 export const UpDownAnimation = (props: any) => {
 	let upDownAnim: Animated.Value = useRef(new Animated.Value(0)).current;
-	let intervalId: number;
+	let intervalId: any;
 
 	useEffect(() => {
 		Animated.loop(

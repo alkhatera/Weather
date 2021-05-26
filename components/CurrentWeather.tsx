@@ -27,24 +27,22 @@ function CurrentWeather(props: {
 				{ backgroundColor: weatherConditions[weatherCondition]?.color },
 			]}
 		>
-			<View style={styles.headerContainer}>
-				<MaterialCommunityIcons
-					size={72}
-					// @ts-ignore
-					name={weatherConditions[weatherCondition]?.icon}
-					color="#fff"
-				/>
-				<Text style={styles.tempText}>{props.temperature}°</Text>
+			<View style={styles.topContainer}>
+				<View style={styles.temperatureView}>
+					<MaterialCommunityIcons
+						size={72}
+						// @ts-ignore
+						name={weatherConditions[weatherCondition]?.icon}
+						color="#fff"
+					/>
+					<Text style={styles.tempText}>{props.temperature}°</Text>
+				</View>
+				<View style={styles.weatherConditionView}>
+					<Text style={styles.title}>{weatherConditions[weatherCondition]?.title}</Text>
+					<Text style={styles.subtitle}>{weatherConditions[weatherCondition]?.subtitle}</Text>
+				</View>
 			</View>
-			<View style={styles.bodyContainer}>
-				<Text style={styles.title}>{weatherConditions[weatherCondition]?.title}</Text>
-				<Text style={styles.subtitle}>{weatherConditions[weatherCondition]?.subtitle}</Text>
-			</View>
-			<ScrollView
-				contentContainerStyle={{
-					alignItems: 'center',
-				}}
-			>
+			<ScrollView style={styles.bottomContainer} contentContainerStyle={styles.cardsContainer}>
 				{props.nextDays.map((day: any, index: number) => {
 					return (
 						<Card
@@ -71,23 +69,43 @@ const styles = StyleSheet.create({
 	screenContainer: {
 		flex: 1,
 	},
-	headerContainer: {
-		flex: 1,
+	topContainer: {
+		marginVertical: 20,
+		height: '30%',
+		minHeight: 200,
+		maxHeight: '35%',
+	},
+	temperatureView: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-around',
-		marginTop: 20,
 	},
 	tempText: {
 		fontSize: 72,
 		color: '#fff',
+	},
+	weatherConditionView: {
+		alignItems: 'center',
+		justifyContent: 'space-around',
+	},
+	title: {
+		fontSize: 60,
+		color: '#fff',
+	},
+	subtitle: { fontSize: 24, color: '#fff' },
+	bottomContainer: {
+		flex: 2,
+	},
+	cardsContainer: {
+		alignItems: 'center',
 	},
 	card: {
 		color: 'white',
 		borderRadius: 5,
 		padding: 10,
 		marginVertical: 5,
-		width: 100,
+		width: '100%',
+		minWidth: 100,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
@@ -102,17 +120,6 @@ const styles = StyleSheet.create({
 
 		elevation: 5,
 	},
-	bodyContainer: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'flex-start',
-		marginBottom: 20,
-	},
-	title: {
-		fontSize: 60,
-		color: '#fff',
-	},
-	subtitle: { fontSize: 24, color: '#fff' },
 });
 
 export default CurrentWeather;
