@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
 	ScrollView,
 	View,
@@ -8,6 +8,7 @@ import {
 	TextInput,
 	Alert,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { Card, Input, Button } from 'react-native-elements';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CountryPicker, { Country } from 'react-native-country-picker-modal';
@@ -16,6 +17,7 @@ import OTPInputView from '@twotalltotems/react-native-otp-input';
 
 import Firebase, { firebaseConfig } from '../../utils/FirebaseConfig';
 import firebase from 'firebase';
+import { toggleAuth } from '../../store/actions/auth';
 
 function AuthScreen(props: any) {
 	const [errorMessage, setErrorMessage] = useState<string>();
@@ -38,8 +40,6 @@ function AuthScreen(props: any) {
 	const [verificationId, setVerificationId] = useState<string>('');
 	const [enteredVerificationCode, setEnteredVerificationCode] = useState<string>('');
 
-	useEffect(() => {}, []);
-
 	async function sendSMSHandler() {
 		if (!country?.callingCode[0] || !phoneNumber) return;
 		try {
@@ -61,15 +61,23 @@ function AuthScreen(props: any) {
 
 	async function continueHandler() {
 		try {
+			setVerifyingSMS(true);
 			const credential = firebase.auth.PhoneAuthProvider.credential(
 				verificationId,
 				enteredVerificationCode
 			);
 			await firebase.auth().signInWithCredential(credential);
+			toggleAuthHandler();
+			setVerifyingSMS(false);
 		} catch (err) {
 			Alert.alert('Entered code is not correct!', 'Please enter it again', [{ text: 'Okay' }]);
 		}
 	}
+
+	const dispatch = useDispatch();
+	const toggleAuthHandler = useCallback(() => {
+		dispatch(toggleAuth());
+	}, [dispatch]);
 
 	return (
 		<View style={styles.screen}>
@@ -133,13 +141,11 @@ function AuthScreen(props: any) {
 								<OTPInputView
 									pinCount={6}
 									onCodeFilled={(code) => {
-										console.log(`Code is ${code}, you are good to go!`);
 										setEnteredVerificationCode(code);
 									}}
 									keyboardType="number-pad"
 									keyboardAppearance="dark"
 									style={styles.OTPInput}
-									clearInputs
 								/>
 								<Button
 									title="Confirm Verification Code"
