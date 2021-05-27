@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'react-native-elements';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { createStore, combineReducers } from 'redux';
-import { Provider, RootStateOrAny, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import firebase from 'firebase';
-import { useDispatch } from 'react-redux';
 
 import SearchScreen from './screens/search/SearchScreen';
 import CityWeatherScreen from './screens/cities/CityWeatherScreen';
@@ -15,7 +14,6 @@ import HomeScreen from './screens/home/HomeScreen';
 import citiesReducer from './store/reducers/cities';
 import authReducer from './store/reducers/auth';
 import AuthScreen from './screens/auth/AuthScreen';
-import { toggleAuth } from './store/actions/auth';
 
 const Stack = createStackNavigator();
 
@@ -44,7 +42,7 @@ function App() {
 				setIsLoggedIn(false);
 			}
 		});
-	}, [firebase.auth().onAuthStateChanged]);
+	}, []);
 
 	return (
 		<NavigationContainer>
