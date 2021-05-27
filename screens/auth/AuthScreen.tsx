@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import {
 	ScrollView,
 	View,
@@ -8,7 +8,6 @@ import {
 	TextInput,
 	Alert,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { Card, Input, Button } from 'react-native-elements';
 import CountryPicker, { Country } from 'react-native-country-picker-modal';
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
@@ -16,7 +15,6 @@ import OTPInputView from '@twotalltotems/react-native-otp-input';
 
 import { firebaseConfig } from '../../utils/FirebaseConfig';
 import firebase from 'firebase';
-import { toggleAuth } from '../../store/actions/auth';
 
 function AuthScreen(props: any) {
 	const [errorMessage, setErrorMessage] = useState<string>();
@@ -38,12 +36,6 @@ function AuthScreen(props: any) {
 	const recaptchaVerifier = React.useRef<any>(null);
 	const [verificationId, setVerificationId] = useState<string>('');
 	const [enteredVerificationCode, setEnteredVerificationCode] = useState<string>('');
-
-	firebase.auth().onAuthStateChanged((user) => {
-		if (user !== null) {
-			toggleAuthHandler();
-		}
-	});
 
 	// TODO: Focus on input
 	async function sendSMSHandler() {
@@ -79,11 +71,6 @@ function AuthScreen(props: any) {
 		}
 	}
 
-	const dispatch = useDispatch();
-	const toggleAuthHandler = useCallback(() => {
-		dispatch(toggleAuth());
-	}, [dispatch]);
-
 	return (
 		<View style={styles.screen}>
 			<FirebaseRecaptchaVerifierModal
@@ -109,7 +96,6 @@ function AuthScreen(props: any) {
 								withCallingCode
 								onSelect={(country: Country) => {
 									setCountry(country);
-									console.log(country.callingCode[0]);
 								}}
 								// @ts-ignore
 								countryCode={country?.cca2 || 'SA'}
