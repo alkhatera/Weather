@@ -20,6 +20,7 @@ const citiesReducer = (state = initialState, action: ToggleFavAction) => {
 				const city = state.cities.find((city: City) => city.key === action.cityId);
 				return { ...state, favoriteCities: (<City[]>state.favoriteCities).concat(<City>city) };
 			}
+			break;
 		default:
 			return state;
 	}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
 	ScrollView,
 	View,
@@ -10,12 +10,11 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Card, Input, Button } from 'react-native-elements';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CountryPicker, { Country } from 'react-native-country-picker-modal';
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 
-import Firebase, { firebaseConfig } from '../../utils/FirebaseConfig';
+import { firebaseConfig } from '../../utils/FirebaseConfig';
 import firebase from 'firebase';
 import { toggleAuth } from '../../store/actions/auth';
 
@@ -40,6 +39,13 @@ function AuthScreen(props: any) {
 	const [verificationId, setVerificationId] = useState<string>('');
 	const [enteredVerificationCode, setEnteredVerificationCode] = useState<string>('');
 
+	firebase.auth().onAuthStateChanged((user) => {
+		if (user !== null) {
+			toggleAuthHandler();
+		}
+	});
+
+	// TODO: Focus on input
 	async function sendSMSHandler() {
 		if (!country?.callingCode[0] || !phoneNumber) return;
 		try {
@@ -67,7 +73,6 @@ function AuthScreen(props: any) {
 				enteredVerificationCode
 			);
 			await firebase.auth().signInWithCredential(credential);
-			toggleAuthHandler();
 			setVerifyingSMS(false);
 		} catch (err) {
 			Alert.alert('Entered code is not correct!', 'Please enter it again', [{ text: 'Okay' }]);

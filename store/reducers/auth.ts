@@ -1,7 +1,8 @@
-import { toggleAuth, ToggleAuthAction, TOGGLE_AUTH } from '../actions/auth';
+import { ToggleAuthAction, TOGGLE_AUTH } from '../actions/auth';
 
 const initialState = {
 	isAuthenticated: false,
+	user: null,
 };
 
 const authReducer = (state = initialState, action: ToggleAuthAction) => {
@@ -12,6 +13,7 @@ const authReducer = (state = initialState, action: ToggleAuthAction) => {
 			} else {
 				return { ...state, isAuthenticated: true };
 			}
+			break;
 		default:
 			return state;
 	}
