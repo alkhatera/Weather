@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 
-const firebaseConfig = {
+export const firebaseConfig = {
 	apiKey: 'AIzaSyA_5Zxmet0ghQNHheM2eh-QWElrS2Pjd7I',
 	authDomain: 'weather-app-8dd86.firebaseapp.com',
 	projectId: 'weather-app-8dd86',
