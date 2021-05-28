@@ -1,10 +1,18 @@
-export const TOGGLE_FAVORITE = 'TOGGLE FAVORITE';
+import { City } from '../../utils/Cities';
 
-export type ToggleFavAction = {
+export const TOGGLE_FAVORITE = 'TOGGLE FAVORITE';
+export const SET_CITIES = 'SET CITIES';
+
+export type CitiesAction = {
 	type: string;
-	cityId: number;
+	cityId?: number;
+	cities?: City[];
 };
 
-export const toggleFavorite = (id: number): ToggleFavAction => {
+export const toggleFavorite = (id: number): CitiesAction => {
 	return { type: TOGGLE_FAVORITE, cityId: id };
+};
+
+export const setCities = (cities: City[]): CitiesAction => {
+	return { type: SET_CITIES, cities: [...cities] };
 };

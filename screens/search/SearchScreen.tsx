@@ -8,14 +8,14 @@ import { City } from '../../utils/Cities';
 function SearchScreen() {
 	const availableCities = useSelector((state: RootStateOrAny) => state.cities.cities);
 	const [searchedForCity, setSearchedForCity] = useState('');
-	const [foundCities, setFoundCities] = useState<any[]>([]);
+	const [foundCities, setFoundCities] = useState<City[]>([]);
 
 	useEffect(() => {
 		setFoundCities(availableCities.slice());
 	}, [availableCities]);
 
 	function filter(text: string): any[] {
-		if (!text) return [];
+		if (!text) return [...availableCities];
 
 		return availableCities.filter((city: City) => {
 			return (

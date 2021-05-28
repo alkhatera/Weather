@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ListItem, Icon } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 
-function SearchResults(props: any) {
+import { City } from '../../utils/Cities';
+
+function SearchResults(props: { cities: City[] }) {
 	const navigation = useNavigation();
 
 	return (

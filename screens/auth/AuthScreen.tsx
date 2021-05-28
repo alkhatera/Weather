@@ -137,6 +137,7 @@ function AuthScreen(props: any) {
 									keyboardType="number-pad"
 									keyboardAppearance="dark"
 									style={styles.OTPInput}
+									autoFocusOnLoad
 								/>
 								<Button
 									title="Confirm Verification Code"

@@ -1,12 +1,13 @@
 import firebase from 'firebase/app';
 
 export const firebaseConfig = {
-	apiKey: 'AIzaSyA_5Zxmet0ghQNHheM2eh-QWElrS2Pjd7I',
-	authDomain: 'weather-app-8dd86.firebaseapp.com',
-	projectId: 'weather-app-8dd86',
-	storageBucket: 'weather-app-8dd86.appspot.com',
-	messagingSenderId: '794134709941',
-	appId: '1:794134709941:web:662f1404b3a05a763a20fc',
+	apiKey: 'AIzaSyA9LvJ6cvqc1Y1ZbUpW9ghkdlzoJBbeheY',
+	authDomain: 'weather-53d7d.firebaseapp.com',
+	databaseURL: 'https://weather-53d7d-default-rtdb.firebaseio.com',
+	projectId: 'weather-53d7d',
+	storageBucket: 'weather-53d7d.appspot.com',
+	messagingSenderId: '129954858997',
+	appId: '1:129954858997:web:0d1bb1e36fe126414842bc',
 };
 
 const Firebase = firebase.initializeApp(firebaseConfig);

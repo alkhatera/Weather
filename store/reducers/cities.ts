@@ -1,5 +1,5 @@
 import { CITIES, City } from '../../utils/Cities';
-import { ToggleFavAction, TOGGLE_FAVORITE } from '../actions/cities';
+import { CitiesAction, SET_CITIES, TOGGLE_FAVORITE } from '../actions/cities';
 import { saveFavCities } from '../../utils/data_storage';
 import firebase from 'firebase';
 
@@ -8,7 +8,7 @@ const initialState = {
 	favoriteCities: [],
 };
 
-const citiesReducer = (state = initialState, action: ToggleFavAction) => {
+const citiesReducer = (state = initialState, action: CitiesAction) => {
 	switch (action.type) {
 		case TOGGLE_FAVORITE:
 			const existingIndex = state.favoriteCities.findIndex(
@@ -36,6 +36,9 @@ const citiesReducer = (state = initialState, action: ToggleFavAction) => {
 					return { ...state, favoriteCities: updatedFavCities };
 				}
 			})();
+			break;
+		case SET_CITIES:
+			return { ...state, favoriteCities: action.cities };
 		default:
 			return state;
 	}
