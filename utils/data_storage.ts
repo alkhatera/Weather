@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import { City } from './Cities';
 
-export async function fetchFavCities(userId: string): Promise<City[]> {
+export async function fetchFavoriteCities(userId: string): Promise<City[]> {
 	if (!userId) return [];
 
 	try {
@@ -13,11 +13,11 @@ export async function fetchFavCities(userId: string): Promise<City[]> {
 		if (snapshot.exists()) return snapshot.val();
 		else return [];
 	} catch (error) {
-		return [];
+		throw error;
 	}
 }
 
-export async function saveFavCities(userId: string, cities: City[]): Promise<boolean> {
+export async function saveFavoriteCities(userId: string, cities: City[]): Promise<boolean> {
 	if (!userId) return false;
 
 	try {

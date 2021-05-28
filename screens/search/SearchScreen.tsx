@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import SearchResults from './SearchResults';
-import { RootStateOrAny, useSelector } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 
 import { View, Text, StyleSheet, TextInput, FlatList, ScrollView } from 'react-native';
 import { City } from '../../utils/Cities';
 
-function SearchScreen() {
+import * as citiesActions from '../../store/actions/cities';
+
+function SearchScreen(props: any) {
 	const availableCities = useSelector((state: RootStateOrAny) => state.cities.cities);
 	const [searchedForCity, setSearchedForCity] = useState('');
 	const [foundCities, setFoundCities] = useState<City[]>([]);
@@ -13,6 +15,27 @@ function SearchScreen() {
 	useEffect(() => {
 		setFoundCities(availableCities.slice());
 	}, [availableCities]);
+
+	const [isLoading, setIsLoading] = useState(false);
+	const dispatch = useDispatch();
+
+	const loadFavorites = useCallback(async () => {
+		setIsLoading(true);
+		await dispatch(citiesActions.fetchCities());
+		setIsLoading(false);
+	}, [dispatch, setIsLoading]);
+
+	useEffect(() => {
+		const willFocusSub = props.navigation.addListener('willFocus', loadFavorites);
+
+		return () => {
+			// willFocusSub.remove();
+		};
+	}, [loadFavorites]);
+
+	useEffect(() => {
+		loadFavorites();
+	}, [dispatch, loadFavorites]);
 
 	function filter(text: string): any[] {
 		if (!text) return [...availableCities];

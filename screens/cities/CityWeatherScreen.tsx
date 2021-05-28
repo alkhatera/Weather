@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-elements';
 import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -8,7 +8,7 @@ import { City } from '../../utils/Cities';
 import { API_KEY } from '../../utils/WeatherAPIKey';
 import { checkIfNightTime } from '../../utils/utils';
 
-import { toggleFavorite } from '../../store/actions/cities';
+import * as citiesActions from '../../store/actions/cities';
 import LoadingScreen, { LoadingStates } from '../loading/LoadingScreen';
 import CurrentWeather from '../../components/CurrentWeather';
 
@@ -21,21 +21,22 @@ function CityWeatherScreen(props: any) {
 	const [nextDays, setNextDays] = useState([]);
 
 	const availableCities = useSelector((state: RootStateOrAny) => state.cities.cities);
+	const favoriteCities = useSelector((state: RootStateOrAny) => state.cities.favoriteCities);
 
 	const cityKey = props.route.params.key;
+	const currentCityIsFavorite = favoriteCities.some((city: City) => city.key === cityKey);
+
 	const selectedCity: City = availableCities.find((city: City) => city.key === cityKey);
 
-	const currentCityIsFavorite = useSelector((state: RootStateOrAny) =>
-		state.cities.favoriteCities.some((city: City) => city.key === cityKey)
-	);
-
 	const dispatch = useDispatch();
-	const toggleFavoriteHandler = useCallback(() => {
-		dispatch(toggleFavorite(cityKey));
-	}, [dispatch, cityKey]);
+	const saveFavorites = useCallback(async () => {
+		setIsLoading(true);
+		await dispatch(citiesActions.toggleFavorite(selectedCity, favoriteCities));
+		setIsLoading(false);
+	}, [dispatch, setIsLoading, selectedCity, favoriteCities]);
 
 	useEffect(() => {
-		setNavigationOptions(toggleFavoriteHandler, selectedCity.name, currentCityIsFavorite);
+		setNavigationOptions(saveFavorites, selectedCity.name, currentCityIsFavorite);
 
 		(async () => {
 			setIsLoading(true);
@@ -52,7 +53,7 @@ function CityWeatherScreen(props: any) {
 
 			setIsLoading(false);
 		})();
-	}, [toggleFavoriteHandler, selectedCity.name, currentCityIsFavorite]);
+	}, [saveFavorites, selectedCity.name, currentCityIsFavorite]);
 
 	function setNavigationOptions(handler: any, cityName: string, isFav: boolean) {
 		props.navigation.setOptions({
@@ -102,10 +103,9 @@ function CityWeatherScreen(props: any) {
 	return (
 		<View style={styles.container}>
 			{isLoading ? (
-				<LoadingScreen
-					loadingText={'Getting the weather info...'}
-					loadingState={LoadingStates.Weather}
-				/>
+				<View style={styles.loadingContainer}>
+					<ActivityIndicator size="large" />
+				</View>
 			) : (
 				<CurrentWeather
 					weatherCondition={weatherCondition}
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
+	loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 });
 
 export default CityWeatherScreen;
