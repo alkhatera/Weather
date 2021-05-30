@@ -5,11 +5,9 @@ import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { City } from '../../utils/Cities';
-import { API_KEY } from '../../utils/WeatherAPIKey';
 import { checkIfNightTime } from '../../utils/utils';
 
 import * as citiesActions from '../../store/actions/cities';
-import LoadingScreen, { LoadingStates } from '../loading/LoadingScreen';
 import CurrentWeather from '../../components/CurrentWeather';
 
 function CityWeatherScreen(props: any) {

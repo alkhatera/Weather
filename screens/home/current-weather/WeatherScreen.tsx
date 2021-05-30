@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import * as Location from 'expo-location';
 
-import { API_KEY } from '../../../utils/WeatherAPIKey';
 import { checkIfNightTime } from '../../../utils/utils';
 
 import LoadingScreen, { LoadingStates } from '../../loading/LoadingScreen';
