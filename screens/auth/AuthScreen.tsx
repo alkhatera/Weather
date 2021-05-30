@@ -53,7 +53,10 @@ function AuthScreen(props: any) {
 			setVerificationId(verificationId);
 			setIsSendingSMS(false);
 		} catch (error) {
-			Alert.alert('Could not send SMS!', 'Please try again later', [{ text: 'Okay' }]);
+			setIsSendingSMS(false);
+			if (error?.message !== 'Cancelled by user') {
+				Alert.alert('Could not send SMS!', 'Please try again later', [{ text: 'Okay' }]);
+			}
 		}
 	}
 
@@ -67,6 +70,7 @@ function AuthScreen(props: any) {
 			await firebase.auth().signInWithCredential(credential);
 			setVerifyingSMS(false);
 		} catch (err) {
+			setVerifyingSMS(false);
 			Alert.alert('Entered code is not correct!', 'Please enter it again', [{ text: 'Okay' }]);
 		}
 	}
