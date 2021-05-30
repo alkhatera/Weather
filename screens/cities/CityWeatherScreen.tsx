@@ -77,7 +77,7 @@ function CityWeatherScreen(props: any) {
 	async function fetchWeatherUsingCity(cityName: string) {
 		try {
 			const weatherJson = await fetch(
-				`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric`
+				`https://us-central1-alaa-1158f.cloudfunctions.net/fetchWeatherUsingCity?cityName=${cityName}`
 			);
 			const weatherData = await weatherJson.json();
 
@@ -90,7 +90,7 @@ function CityWeatherScreen(props: any) {
 	async function fetchWeather(latitude: number, longitude: number) {
 		try {
 			const weatherJson = await fetch(
-				`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,alerts&appid=${API_KEY}&units=metric`
+				`https://us-central1-alaa-1158f.cloudfunctions.net/fetchWeatherUsingLatLon?lat=${latitude}&lon=${longitude}`
 			);
 			const weatherData = await weatherJson.json();
 

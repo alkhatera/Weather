@@ -69,7 +69,7 @@ function WeatherScreen() {
 		try {
 			setIsFetchingWeather(true);
 			const weatherJson = await fetch(
-				`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,alerts&appid=${API_KEY}&units=metric`
+				`https://us-central1-alaa-1158f.cloudfunctions.net/fetchWeatherUsingLatLon?lat=${latitude}&lon=${longitude}`
 			);
 			const weatherData = await weatherJson.json();
 			setIsFetchingWeather(false);
