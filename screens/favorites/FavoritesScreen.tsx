@@ -5,6 +5,7 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import SearchResults from '../search/SearchResults';
 import * as citiesActions from '../../store/actions/cities';
 import { City } from '../../utils/Cities';
+import { useIsFocused } from '@react-navigation/core';
 
 function FavoritesScreen(props: any) {
 	const favoriteCities: City[] = useSelector(
@@ -19,17 +20,10 @@ function FavoritesScreen(props: any) {
 		setIsLoading(false);
 	}, [dispatch, setIsLoading]);
 
+	const isFocused = useIsFocused();
 	useEffect(() => {
-		const willFocusSub = props.navigation.addListener('willFocus', loadFavorites);
-
-		return () => {
-			// willFocusSub.remove();
-		};
-	}, [loadFavorites]);
-
-	useEffect(() => {
-		loadFavorites();
-	}, [dispatch, loadFavorites]);
+		if (isFocused) loadFavorites();
+	}, [loadFavorites, isFocused]);
 
 	return favoriteCities.length <= 0 ? (
 		<View style={styles.container}>

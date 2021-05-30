@@ -6,6 +6,7 @@ import { View, Text, StyleSheet, TextInput, FlatList, ScrollView } from 'react-n
 import { City } from '../../utils/Cities';
 
 import * as citiesActions from '../../store/actions/cities';
+import { useIsFocused } from '@react-navigation/core';
 
 function SearchScreen(props: any) {
 	const availableCities = useSelector((state: RootStateOrAny) => state.cities.cities);
@@ -25,17 +26,10 @@ function SearchScreen(props: any) {
 		setIsLoading(false);
 	}, [dispatch, setIsLoading]);
 
+	const isFocused = useIsFocused();
 	useEffect(() => {
-		const willFocusSub = props.navigation.addListener('willFocus', loadFavorites);
-
-		return () => {
-			// willFocusSub.remove();
-		};
-	}, [loadFavorites]);
-
-	useEffect(() => {
-		loadFavorites();
-	}, [dispatch, loadFavorites]);
+		if (isFocused) loadFavorites();
+	}, [loadFavorites, isFocused]);
 
 	function filter(text: string): any[] {
 		if (!text) return [...availableCities];
